@@ -1,5 +1,7 @@
 # Healthcare Provider Anomaly Detection Engine
 
+[![View Live Report](https://img.shields.io/badge/View_Live-HTML_Dossier-8b5cf6?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/apuravmanhas/healthcare-anomaly-engine/blob/main/Healthcare_Anomaly_Detection_Report.html)
+
 ![R](https://img.shields.io/badge/Language-Pure_R-blue)
 ![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)
 ![Status](https://img.shields.io/badge/Build-Passing-success)
