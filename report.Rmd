@@ -112,12 +112,14 @@ code {
 }
 
 pre {
-  background: var(--bg-secondary) !important;
-  border: 1px solid var(--border);
+  background: rgba(17, 24, 39, 0.7) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   padding: 1rem 1.25rem;
   overflow-x: auto;
   font-size: 0.85rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
 }
 
 pre code {
@@ -133,10 +135,12 @@ table {
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.9rem;
-  background: var(--bg-card);
+  background: rgba(26, 32, 54, 0.4);
+  backdrop-filter: blur(12px);
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
 
 thead th {
@@ -222,13 +226,21 @@ hr {
 /* ── CUSTOM CLASSES ── */
 .metric-box {
   display: inline-block;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: rgba(26, 32, 54, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
   padding: 1rem 1.5rem;
   margin: 0.5rem;
   text-align: center;
   min-width: 160px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
 .metric-value {
@@ -578,9 +590,9 @@ ggplot(net_df, aes(x = eigenvector_centrality, fill = label)) +
   geom_histogram(bins = 40, alpha = 0.75, position = "identity", color = "#0a0e17") +
   geom_vline(xintercept = net$collusion$threshold, color = "#f97316",
              linetype = "dashed", linewidth = 0.8) +
-  annotate("text", x = net$collusion$threshold + 0.05, y = Inf,
-           label = "Hub Threshold", color = "#f97316",
-           size = 3.5, fontface = "bold", vjust = 2) +
+  annotate("text", x = net$collusion$threshold, y = Inf,
+           label = "Hub Threshold  ", color = "#f97316",
+           size = 3.5, fontface = "bold", vjust = 1.5, hjust = 1, angle = 90) +
   scale_fill_manual(values = pal_binary) +
   labs(
     title = "Eigenvector Centrality Distribution (Power Iteration)",
@@ -679,12 +691,12 @@ ggplot(ben_df, aes(x = benford_mad, fill = label)) +
   geom_vline(xintercept = 0.006, color = "#10b981", linetype = "dotted", linewidth = 0.6) +
   geom_vline(xintercept = 0.012, color = "#f59e0b", linetype = "dotted", linewidth = 0.6) +
   geom_vline(xintercept = 0.015, color = "#ef4444", linetype = "dashed", linewidth = 0.8) +
-  annotate("text", x = 0.006, y = Inf, label = "Close", color = "#10b981",
-           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
-  annotate("text", x = 0.012, y = Inf, label = "Acceptable", color = "#f59e0b",
-           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
-  annotate("text", x = 0.015, y = Inf, label = "Nonconforming →", color = "#ef4444",
-           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
+  annotate("text", x = 0.006, y = Inf, label = "Close  ", color = "#10b981",
+           size = 3.5, fontface = "bold", hjust = 1, vjust = -0.5, angle = 90) +
+  annotate("text", x = 0.012, y = Inf, label = "Acceptable  ", color = "#f59e0b",
+           size = 3.5, fontface = "bold", hjust = 1, vjust = -0.5, angle = 90) +
+  annotate("text", x = 0.015, y = Inf, label = "Nonconforming  ", color = "#ef4444",
+           size = 3.5, fontface = "bold", hjust = 1, vjust = -0.5, angle = 90) +
   scale_fill_manual(values = pal_binary) +
   labs(
     title = "Per-Doctor Benford's Law Mean Absolute Deviation (MAD)",
@@ -916,5 +928,5 @@ kable(cov_df, caption = "Computed Covariance Matrix Σ (computed from scratch vi
 <p style="font-size: 1.1rem; font-weight: 600; color: #94a3b8;">
 Healthcare Provider Anomaly Detection Engine v1.0</p>
 <p>Zero external ML dependencies · Scratch-built linear algebra · Pure R</p>
-<p style="font-size: 0.8rem;">Generated on `r format(Sys.time(), '%B %d, %Y at %H:%M:%S')`</p>
+<p style="font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase;">Project made by WuXin</p>
 </div>
