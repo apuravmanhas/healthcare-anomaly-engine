@@ -1,6 +1,6 @@
 # Healthcare Provider Anomaly Detection Engine
 
-[![View Live Report](https://img.shields.io/badge/View_Live-HTML_Dossier-8b5cf6?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/apuravmanhas/healthcare-anomaly-engine/blob/main/Healthcare_Anomaly_Detection_Report.html)
+**[🔗 Click Here to View the Live Generated HTML Dossier](https://htmlpreview.github.io/?https://github.com/apuravmanhas/healthcare-anomaly-engine/blob/main/Healthcare_Anomaly_Detection_Report.html)**
 
 ![R](https://img.shields.io/badge/Language-Pure_R-blue)
 ![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)
@@ -8,7 +8,7 @@
 
 A zero-dependency statistical fraud detection engine built in pure R. This project mathematically flags suspicious healthcare providers (inflated billing, statistically impossible consultation volumes, fake review patterns, and network collusion rings) **using scratch-built linear algebra without any pre-built Machine Learning packages.**
 
-## 🧠 The Math Behind the Engine
+## The Math Behind the Engine
 
 To prove an understanding of the algorithms beneath standard data science libraries, this engine implements three orthogonal detection methods entirely from scratch:
 
@@ -30,7 +30,7 @@ Analyzes the leading-digit distribution of billing transaction logs to detect fa
 * Computes expected logarithmic distribution $P(d) = \log_{10}(1 + 1/d)$.
 * Calculates Pearson's $\chi^2$ Goodness-of-Fit test and Mean Absolute Deviation (MAD) from scratch to flag non-conforming practitioners.
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 ```text
 ├── R/
@@ -43,7 +43,7 @@ Analyzes the leading-digit distribution of billing transaction logs to detect fa
 └── report.Rmd                    # Generates the automated HTML dossier
 ```
 
-## 🚀 How to Run
+## How to Run
 
 1. Clone this repository.
 2. Ensure you have the required reporting packages installed (`ggplot2`, `rmarkdown`, `knitr`).
@@ -55,7 +55,7 @@ Rscript run.R
 
 The script will synthesize a dataset of 500 mock doctors, perform the matrix algebra real-time, rank the providers by composite fraud risk, and generate a jaw-dropping dark-themed `Healthcare_Anomaly_Detection_Report.html` dossier.
 
-## 📊 The Output Dossier
+## The Output Dossier
 
 The engine automatically generates a professional, multi-page HTML report containing:
 * **Composite Risk Scoring:** Weighted fusion of all three methods.
