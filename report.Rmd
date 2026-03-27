@@ -1,0 +1,920 @@
+---
+title: "Healthcare Provider Anomaly Detection Dossier"
+subtitle: "Zero-Dependency Algorithmic Fraud Detection Engine"
+author: "Anomaly Detection Engine v1.0"
+date: "`r format(Sys.time(), '%B %d, %Y — %H:%M')`"
+output:
+  html_document:
+    theme: null
+    highlight: pygments
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    css: null
+    self_contained: true
+---
+
+```{css, echo=FALSE}
+/* ═══════════════════════════════════════════════════════════════════
+   DARK THEME — ANOMALY DETECTION DOSSIER
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700;900&display=swap');
+
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #1a2036;
+  --bg-card-hover: #212945;
+  --border: #2a3555;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #8b5cf6;
+  --accent-green: #10b981;
+  --accent-yellow: #f59e0b;
+  --accent-orange: #f97316;
+  --accent-red: #ef4444;
+  --accent-pink: #ec4899;
+  --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --gradient-danger: linear-gradient(135deg, #ef4444, #f97316);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  background: var(--bg-primary);
+}
+
+/* ── HEADERS ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+}
+
+h1.title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.03em;
+}
+
+h1.title + h3.subtitle {
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+
+h4.author, h4.date {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+h1 { font-size: 1.8rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; color: var(--accent-cyan); }
+h3 { font-size: 1.15rem; color: var(--accent-purple); }
+
+/* ── CODE ── */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--bg-secondary);
+  color: var(--accent-cyan);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+pre {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+/* ── TABLES ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+thead th {
+  background: var(--bg-secondary);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--accent-blue);
+  text-align: left;
+}
+
+tbody td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+/* ── TOC ── */
+.tocify {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+}
+
+.tocify-header, .tocify-subheader {
+  font-size: 0.85rem;
+}
+
+.tocify a {
+  color: var(--text-secondary) !important;
+  padding: 0.4rem 1rem !important;
+}
+
+.tocify .active a {
+  color: var(--accent-cyan) !important;
+  background: var(--bg-card) !important;
+  border-left: 3px solid var(--accent-blue) !important;
+}
+
+/* ── PLOTS ── */
+img, .plot-container {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+p img {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ── BLOCKQUOTES (info boxes) ── */
+blockquote {
+  background: var(--bg-card);
+  border-left: 4px solid var(--accent-blue);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-secondary);
+}
+
+/* ── LINKS ── */
+a { color: var(--accent-blue); text-decoration: none; }
+a:hover { color: var(--accent-cyan); text-decoration: underline; }
+
+/* ── HORIZONTAL RULES ── */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 2rem 0;
+}
+
+/* ── CUSTOM CLASSES ── */
+.metric-box {
+  display: inline-block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 0.5rem;
+  text-align: center;
+  min-width: 160px;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.risk-critical { color: var(--accent-red); }
+.risk-high { color: var(--accent-orange); }
+.risk-elevated { color: var(--accent-yellow); }
+.risk-moderate { color: var(--accent-blue); }
+.risk-low { color: var(--accent-green); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo       = FALSE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.width  = 10,
+  fig.height = 6,
+  fig.retina = 2,
+  dpi        = 150
+)
+
+library(ggplot2)
+library(knitr)
+
+# ── Dark ggplot2 theme ──
+theme_anomaly <- function(base_size = 13) {
+  theme_minimal(base_size = base_size) %+replace%
+    theme(
+      plot.background   = element_rect(fill = "#0a0e17", color = NA),
+      panel.background  = element_rect(fill = "#111827", color = NA),
+      panel.grid.major  = element_line(color = "#1e293b", linewidth = 0.3),
+      panel.grid.minor  = element_blank(),
+      text              = element_text(color = "#e2e8f0", family = "sans"),
+      plot.title        = element_text(color = "#e2e8f0", size = 16, face = "bold",
+                                       hjust = 0, margin = margin(b = 8)),
+      plot.subtitle     = element_text(color = "#94a3b8", size = 11,
+                                       hjust = 0, margin = margin(b = 15)),
+      axis.text         = element_text(color = "#94a3b8", size = 10),
+      axis.title        = element_text(color = "#cbd5e1", size = 11, face = "bold"),
+      legend.background = element_rect(fill = "#111827", color = NA),
+      legend.text       = element_text(color = "#94a3b8"),
+      legend.title      = element_text(color = "#e2e8f0", face = "bold"),
+      legend.key        = element_rect(fill = "#111827", color = NA),
+      strip.text        = element_text(color = "#06b6d4", face = "bold", size = 11),
+      plot.margin       = margin(15, 15, 15, 15)
+    )
+}
+theme_set(theme_anomaly())
+
+# ── Color palettes ──
+pal_risk <- c("CRITICAL" = "#ef4444", "HIGH" = "#f97316",
+              "ELEVATED" = "#f59e0b", "MODERATE" = "#3b82f6", "LOW" = "#10b981")
+
+pal_gradient <- c("#10b981", "#3b82f6", "#8b5cf6", "#f59e0b", "#ef4444")
+
+pal_binary <- c("Normal" = "#3b82f6", "Anomaly" = "#ef4444")
+```
+
+```{r load-engines}
+# ── Source all engine files ──
+source("R/05_utils.R",           local = TRUE)
+source("R/01_generate_data.R",   local = TRUE)
+source("R/02_mvg_engine.R",      local = TRUE)
+source("R/03_network_analysis.R",local = TRUE)
+source("R/04_benford_law.R",     local = TRUE)
+```
+
+```{r run-engines, results='hide'}
+# ══════════════════════════════════════════════════════════════════
+# EXECUTE THE FULL DETECTION PIPELINE
+# ══════════════════════════════════════════════════════════════════
+
+# 1. Generate synthetic data
+data <- generate_all_data(n_doctors = 500, seed = 42)
+doctors      <- data$doctors
+network      <- data$network
+transactions <- data$transactions
+
+# 2. Run MVG Anomaly Detection
+mvg <- run_mvg_anomaly_detection(doctors)
+
+# 3. Run Network Analysis
+net <- run_network_analysis(doctors, network)
+
+# 4. Run Benford's Law Analysis
+ben <- run_benford_analysis(doctors, transactions)
+
+# 5. Merge all results
+results <- merge(doctors, mvg$results, by = "doctor_id", all.x = TRUE)
+results <- merge(results, net$results, by = "doctor_id", all.x = TRUE)
+results <- merge(results, ben$results, by = "doctor_id", all.x = TRUE)
+
+# Fill NA scores with neutral 0.5
+results$mvg_anomaly_score[is.na(results$mvg_anomaly_score)] <- 0
+results$network_anomaly_score[is.na(results$network_anomaly_score)] <- 0
+results$benford_score[is.na(results$benford_score)] <- 0
+
+# 6. Compute composite risk score
+results$composite_score <- composite_risk_score(
+  results$mvg_anomaly_score,
+  results$network_anomaly_score,
+  results$benford_score
+)
+
+# 7. Classify risk
+results$risk_level <- classify_risk(results$composite_score)
+
+# 8. Sort by risk
+results <- results[order(-results$composite_score), ]
+```
+
+---
+
+# Executive Summary
+
+```{r executive-summary}
+n_total     <- nrow(results)
+n_flagged   <- sum(results$composite_score >= 0.5)
+n_critical  <- sum(results$risk_level == "CRITICAL")
+n_high      <- sum(results$risk_level == "HIGH")
+n_true_anom <- sum(results$is_anomaly)
+detected    <- sum(results$is_anomaly & results$composite_score >= 0.5)
+precision   <- sum(results$is_anomaly & results$composite_score >= 0.5) / max(1, n_flagged)
+recall      <- detected / max(1, n_true_anom)
+```
+
+<div style="text-align: center; margin: 2rem 0;">
+<div class="metric-box">
+<div class="metric-value" style="color: #06b6d4;">`r n_total`</div>
+<div class="metric-label">Providers Analyzed</div>
+</div>
+<div class="metric-box">
+<div class="metric-value risk-critical">`r n_flagged`</div>
+<div class="metric-label">Flagged Suspicious</div>
+</div>
+<div class="metric-box">
+<div class="metric-value risk-critical">`r n_critical`</div>
+<div class="metric-label">Critical Risk</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #f97316;">`r n_high`</div>
+<div class="metric-label">High Risk</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #10b981;">`r sprintf("%.0f%%", recall * 100)`</div>
+<div class="metric-label">Detection Recall</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #8b5cf6;">`r sprintf("%.0f%%", precision * 100)`</div>
+<div class="metric-label">Precision</div>
+</div>
+</div>
+
+> **Engine Summary:** The anomaly detection pipeline analyzed **`r n_total`** healthcare provider profiles
+> using three independent mathematical methods — Multivariate Gaussian probability density,
+> Eigenvector Centrality network analysis, and Benford's Law digit forensics — producing a
+> composite fraud risk score for each provider. **`r n_flagged`** providers were flagged as
+> suspicious (composite score ≥ 0.50), with **`r n_critical`** classified as **CRITICAL** risk.
+
+---
+
+# Methodology
+
+## Mathematical Framework
+
+This engine employs three orthogonal detection methods, each implemented using scratch-built linear algebra:
+
+### Multivariate Gaussian Probability Density
+
+Each provider is modeled as a point in $\mathbb{R}^7$ feature space. The probability of observing that provider under the estimated normal distribution is:
+
+$$p(\mathbf{x}; \boldsymbol{\mu}, \boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{n/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)$$
+
+The covariance matrix $\boldsymbol{\Sigma}$ is computed from scratch: $\boldsymbol{\Sigma} = \frac{1}{m-1}(\mathbf{X} - \boldsymbol{\mu})^T(\mathbf{X} - \boldsymbol{\mu})$
+
+### Eigenvector Centrality (Power Iteration)
+
+The referral network adjacency matrix $\mathbf{A}$ is analyzed via iterative matrix multiplication:
+
+$$\mathbf{v}_{k+1} = \frac{\mathbf{A}\mathbf{v}_k}{||\mathbf{A}\mathbf{v}_k||}$$
+
+Convergence yields the dominant eigenvector, whose components give each node's centrality score — identifying hubs of suspicious referral activity.
+
+### Benford's Law
+
+Leading-digit distribution of billing amounts is tested against the theoretical Benford distribution:
+
+$$P(d) = \log_{10}\left(1 + \frac{1}{d}\right), \quad d = 1, 2, \ldots, 9$$
+
+Deviations are quantified via $\chi^2$ goodness-of-fit and Mean Absolute Deviation (MAD).
+
+---
+
+# Multivariate Gaussian Analysis {.tabset}
+
+## Mahalanobis Distance Scatter
+
+```{r mahal-scatter, fig.height=7}
+plot_data <- results
+plot_data$label <- ifelse(results$is_anomaly, "Anomaly", "Normal")
+plot_data$alpha_val <- ifelse(results$is_anomaly, 1, 0.5)
+
+ggplot(plot_data, aes(x = seq_len(nrow(plot_data)), y = mahal_distance)) +
+  geom_point(aes(color = label, size = mvg_anomaly_score), alpha = 0.7) +
+  geom_hline(yintercept = quantile(results$mahal_distance, 0.90, na.rm = TRUE),
+             color = "#ef4444", linetype = "dashed", linewidth = 0.8) +
+  annotate("text", x = nrow(plot_data) * 0.85,
+           y = quantile(results$mahal_distance, 0.90, na.rm = TRUE) + 0.5,
+           label = "90th Percentile Threshold", color = "#ef4444",
+           size = 3.5, fontface = "bold") +
+  scale_color_manual(values = pal_binary) +
+  scale_size_continuous(range = c(1, 5), guide = "none") +
+  labs(
+    title = "Mahalanobis Distance — All Healthcare Providers",
+    subtitle = "Each point represents a provider. Distance from the statistical center reveals anomalous profiles.",
+    x = "Provider Index",
+    y = "Mahalanobis Distance",
+    color = "Ground Truth"
+  )
+```
+
+## Probability Density Distribution
+
+```{r prob-density, fig.height=6}
+plot_data <- results
+plot_data$label <- ifelse(results$is_anomaly, "Anomaly", "Normal")
+plot_data$log_prob <- log10(pmax(plot_data$probability, 1e-300))
+
+ggplot(plot_data, aes(x = log_prob, fill = label)) +
+  geom_histogram(bins = 50, alpha = 0.75, position = "identity", color = "#0a0e17") +
+  geom_vline(xintercept = log10(mvg$epsilon), color = "#ef4444",
+             linetype = "dashed", linewidth = 0.8) +
+  annotate("text", x = log10(mvg$epsilon) - 1.5, y = Inf,
+           label = paste("ε =", format_probability(mvg$epsilon)),
+           color = "#ef4444", size = 3.5, fontface = "bold", vjust = 2) +
+  scale_fill_manual(values = pal_binary) +
+  labs(
+    title = "Log-Probability Distribution Under Multivariate Gaussian Model",
+    subtitle = "Providers left of the threshold ε have statistically improbable feature combinations",
+    x = expression(log[10](p(x))),
+    y = "Count",
+    fill = "Ground Truth"
+  )
+```
+
+## Feature Correlation Heatmap
+
+```{r covariance-heatmap, fig.height=7}
+# Correlation matrix from the covariance matrix
+Sigma <- mvg$Sigma
+D_inv <- diag(1 / sqrt(diag(Sigma)))
+cor_mat <- D_inv %*% Sigma %*% D_inv
+colnames(cor_mat) <- mvg$feature_cols
+rownames(cor_mat) <- mvg$feature_cols
+
+# Reshape for ggplot2
+cor_df <- expand.grid(Var1 = mvg$feature_cols, Var2 = mvg$feature_cols)
+cor_df$value <- as.vector(cor_mat)
+
+ggplot(cor_df, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "#1e293b", linewidth = 0.5) +
+  geom_text(aes(label = sprintf("%.2f", value)), color = "#e2e8f0", size = 3) +
+  scale_fill_gradient2(low = "#3b82f6", mid = "#111827", high = "#ef4444",
+                       midpoint = 0, limits = c(-1, 1)) +
+  labs(
+    title = "Feature Correlation Matrix (Derived from Scratch-Built Σ)",
+    subtitle = "Computed via (X−μ)ᵀ(X−μ) / (m−1) — no cov() function used",
+    x = NULL, y = NULL, fill = "Correlation"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 35, hjust = 1, size = 9),
+    axis.text.y = element_text(size = 9)
+  )
+```
+
+## Anomaly Score vs Features
+
+```{r anomaly-feature-panels, fig.height=8}
+plot_df <- data.frame(
+  score = results$mvg_anomaly_score,
+  billing = results$avg_billing_amount,
+  consult = results$consultations_per_month,
+  complaints = results$patient_complaints,
+  prescriptions = results$prescriptions_per_patient,
+  label = ifelse(results$is_anomaly, "Anomaly", "Normal")
+)
+
+p1 <- ggplot(plot_df, aes(x = billing, y = score, color = label)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = pal_binary) +
+  labs(x = "Avg Billing Amount", y = "MVG Score", color = NULL) +
+  theme(legend.position = "none")
+
+p2 <- ggplot(plot_df, aes(x = consult, y = score, color = label)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = pal_binary) +
+  labs(x = "Consultations/Month", y = "MVG Score", color = NULL) +
+  theme(legend.position = "none")
+
+p3 <- ggplot(plot_df, aes(x = complaints, y = score, color = label)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = pal_binary) +
+  labs(x = "Patient Complaints", y = "MVG Score", color = NULL) +
+  theme(legend.position = "none")
+
+p4 <- ggplot(plot_df, aes(x = prescriptions, y = score, color = label)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = pal_binary) +
+  labs(x = "Prescriptions/Patient", y = "MVG Score", color = NULL)
+
+gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2,
+                        top = grid::textGrob(
+                          "MVG Anomaly Score vs Key Features",
+                          gp = grid::gpar(fontsize = 15, fontface = "bold", col = "#e2e8f0")))
+```
+
+---
+
+# Network Analysis: Collusion Detection {.tabset}
+
+## Eigenvector Centrality Distribution
+
+```{r centrality-dist, fig.height=6}
+net_df <- results[!is.na(results$eigenvector_centrality), ]
+net_df$label <- ifelse(net_df$is_anomaly, "Anomaly", "Normal")
+
+ggplot(net_df, aes(x = eigenvector_centrality, fill = label)) +
+  geom_histogram(bins = 40, alpha = 0.75, position = "identity", color = "#0a0e17") +
+  geom_vline(xintercept = net$collusion$threshold, color = "#f97316",
+             linetype = "dashed", linewidth = 0.8) +
+  annotate("text", x = net$collusion$threshold + 0.05, y = Inf,
+           label = "Hub Threshold", color = "#f97316",
+           size = 3.5, fontface = "bold", vjust = 2) +
+  scale_fill_manual(values = pal_binary) +
+  labs(
+    title = "Eigenvector Centrality Distribution (Power Iteration)",
+    subtitle = paste("Converged in", net$eig_result$iterations,
+                     "iterations | Dominant eigenvalue λ =",
+                     round(net$eig_result$eigenvalue, 2)),
+    x = "Eigenvector Centrality Score",
+    y = "Count",
+    fill = "Ground Truth"
+  )
+```
+
+## Centrality vs Anomaly Score
+
+```{r centrality-vs-mvg, fig.height=6}
+net_df <- results[!is.na(results$eigenvector_centrality), ]
+net_df$label <- ifelse(net_df$is_anomaly, "Anomaly", "Normal")
+
+ggplot(net_df, aes(x = eigenvector_centrality, y = mvg_anomaly_score,
+                   color = label, size = composite_score)) +
+  geom_point(alpha = 0.6) +
+  scale_color_manual(values = pal_binary) +
+  scale_size_continuous(range = c(1, 6), name = "Composite\nScore") +
+  labs(
+    title = "Network Centrality vs Statistical Anomaly Score",
+    subtitle = "Providers in the upper-right quadrant are both statistically anomalous AND network hubs",
+    x = "Eigenvector Centrality",
+    y = "MVG Anomaly Score",
+    color = "Ground Truth"
+  )
+```
+
+## Community Structure
+
+```{r community-plot, fig.height=6}
+net_df <- results[!is.na(results$community) & results$community > 0, ]
+net_df$community_label <- paste("Community", net_df$community)
+net_df$label <- ifelse(net_df$is_anomaly, "Anomaly", "Normal")
+
+comm_summary <- aggregate(is_anomaly ~ community, data = net_df, FUN = mean)
+comm_summary$pct_label <- paste0(round(comm_summary$is_anomaly * 100, 1), "% anomalous")
+
+ggplot(net_df, aes(x = factor(community), fill = label)) +
+  geom_bar(position = "stack", alpha = 0.85, color = "#0a0e17") +
+  scale_fill_manual(values = pal_binary) +
+  labs(
+    title = "Spectral Community Composition",
+    subtitle = "Detected via Laplacian eigendecomposition (L = D − A) with scratch k-means clustering",
+    x = "Community ID",
+    y = "Number of Providers",
+    fill = "Ground Truth"
+  )
+```
+
+---
+
+# Benford's Law Analysis {.tabset}
+
+## Global Digit Distribution
+
+```{r benford-global, fig.height=6}
+expected <- benford_expected()
+observed <- ben$global_observed$proportions
+
+benford_df <- data.frame(
+  digit = rep(1:9, 2),
+  proportion = c(observed, expected),
+  type = rep(c("Observed", "Expected (Benford)"), each = 9)
+)
+
+ggplot(benford_df, aes(x = factor(digit), y = proportion, fill = type)) +
+  geom_col(position = "dodge", alpha = 0.85, color = "#0a0e17", width = 0.7) +
+  scale_fill_manual(values = c("Observed" = "#3b82f6", "Expected (Benford)" = "#8b5cf6")) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(
+    title = "Global Leading-Digit Distribution vs Benford's Law",
+    subtitle = sprintf("χ² = %.2f (p = %s) | MAD = %.4f — %s",
+                       ben$global_chi$chi_squared,
+                       format_probability(ben$global_chi$p_value),
+                       ben$global_mad$mad,
+                       ben$global_mad$classification),
+    x = "Leading Digit",
+    y = "Proportion",
+    fill = NULL
+  )
+```
+
+## Per-Doctor Benford Conformity
+
+```{r benford-per-doctor, fig.height=6}
+ben_df <- results[!is.na(results$benford_mad), ]
+ben_df$label <- ifelse(ben_df$is_anomaly, "Anomaly", "Normal")
+
+ggplot(ben_df, aes(x = benford_mad, fill = label)) +
+  geom_histogram(bins = 40, alpha = 0.75, position = "identity", color = "#0a0e17") +
+  geom_vline(xintercept = 0.006, color = "#10b981", linetype = "dotted", linewidth = 0.6) +
+  geom_vline(xintercept = 0.012, color = "#f59e0b", linetype = "dotted", linewidth = 0.6) +
+  geom_vline(xintercept = 0.015, color = "#ef4444", linetype = "dashed", linewidth = 0.8) +
+  annotate("text", x = 0.006, y = Inf, label = "Close", color = "#10b981",
+           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
+  annotate("text", x = 0.012, y = Inf, label = "Acceptable", color = "#f59e0b",
+           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
+  annotate("text", x = 0.015, y = Inf, label = "Nonconforming →", color = "#ef4444",
+           size = 3, fontface = "bold", vjust = 2, hjust = -0.1) +
+  scale_fill_manual(values = pal_binary) +
+  labs(
+    title = "Per-Doctor Benford's Law Mean Absolute Deviation (MAD)",
+    subtitle = "Nigrini's conformity thresholds shown. Higher MAD = more likely fabricated billing data.",
+    x = "Mean Absolute Deviation from Benford's Law",
+    y = "Count",
+    fill = "Ground Truth"
+  )
+```
+
+## Benford Classification Breakdown
+
+```{r benford-classification, fig.height=5}
+class_df <- as.data.frame(table(results$benford_class, results$is_anomaly))
+colnames(class_df) <- c("Classification", "IsAnomaly", "Count")
+class_df$IsAnomaly <- ifelse(class_df$IsAnomaly == TRUE, "Anomaly", "Normal")
+
+class_order <- c("CLOSE CONFORMITY", "ACCEPTABLE CONFORMITY",
+                 "MARGINALLY ACCEPTABLE", "NONCONFORMING", "INSUFFICIENT DATA")
+class_df$Classification <- factor(class_df$Classification, levels = class_order)
+
+ggplot(class_df, aes(x = Classification, y = Count, fill = IsAnomaly)) +
+  geom_col(position = "stack", alpha = 0.85, color = "#0a0e17") +
+  scale_fill_manual(values = pal_binary) +
+  labs(
+    title = "Benford Conformity Classification",
+    subtitle = "Anomalous providers disproportionately appear in non-conforming categories",
+    x = NULL, y = "Number of Providers", fill = "Ground Truth"
+  ) +
+  theme(axis.text.x = element_text(angle = 20, hjust = 1))
+```
+
+---
+
+# Composite Risk Assessment {.tabset}
+
+## Risk Distribution
+
+```{r risk-dist, fig.height=6}
+risk_df <- as.data.frame(table(results$risk_level))
+colnames(risk_df) <- c("Risk", "Count")
+risk_df$Risk <- factor(risk_df$Risk, levels = c("CRITICAL", "HIGH", "ELEVATED", "MODERATE", "LOW"))
+
+ggplot(risk_df, aes(x = Risk, y = Count, fill = Risk)) +
+  geom_col(alpha = 0.9, color = "#0a0e17", width = 0.7) +
+  geom_text(aes(label = Count), vjust = -0.5, color = "#e2e8f0",
+            fontface = "bold", size = 4.5) +
+  scale_fill_manual(values = pal_risk) +
+  labs(
+    title = "Composite Risk Level Distribution",
+    subtitle = "Weighted fusion: 50% MVG + 30% Network + 20% Benford",
+    x = NULL, y = "Number of Providers"
+  ) +
+  theme(legend.position = "none")
+```
+
+## Composite Score vs Mahalanobis Distance
+
+```{r composite-scatter, fig.height=7}
+plot_df <- results
+plot_df$label <- ifelse(results$is_anomaly, "Anomaly", "Normal")
+
+ggplot(plot_df, aes(x = mahal_distance, y = composite_score,
+                    color = as.character(risk_level))) +
+  geom_point(alpha = 0.7, size = 2) +
+  scale_color_manual(values = pal_risk, name = "Risk Level") +
+  geom_hline(yintercept = 0.5, color = "#ef4444", linetype = "dashed", linewidth = 0.6) +
+  labs(
+    title = "Composite Fraud Score vs Mahalanobis Distance",
+    subtitle = "The dashed line marks the investigation threshold (score ≥ 0.50)",
+    x = "Mahalanobis Distance from Population Center",
+    y = "Composite Fraud Risk Score"
+  )
+```
+
+## Three-Method Comparison
+
+```{r three-method, fig.height=7}
+comp_df <- results[!is.na(results$network_anomaly_score) & !is.na(results$benford_score), ]
+comp_df$label <- ifelse(comp_df$is_anomaly, "Anomaly", "Normal")
+
+ggplot(comp_df, aes(x = mvg_anomaly_score, y = network_anomaly_score,
+                    color = benford_score, shape = label)) +
+  geom_point(alpha = 0.7, size = 2.5) +
+  scale_color_gradient2(low = "#10b981", mid = "#f59e0b", high = "#ef4444",
+                        midpoint = 0.5, name = "Benford\nScore") +
+  scale_shape_manual(values = c("Normal" = 16, "Anomaly" = 17)) +
+  labs(
+    title = "Three-Dimensional Fraud Signal Comparison",
+    subtitle = "MVG (x-axis) × Network (y-axis) × Benford (color) — anomalies cluster in upper-right-red",
+    x = "MVG Anomaly Score (Statistical)",
+    y = "Network Anomaly Score (Centrality)",
+    shape = "Ground Truth"
+  )
+```
+
+---
+
+# Top Flagged Providers
+
+```{r top-flagged}
+top_n <- min(25, nrow(results))
+top <- head(results, top_n)
+
+display_df <- data.frame(
+  Rank         = 1:top_n,
+  Doctor_ID    = top$doctor_id,
+  Specialty    = top$specialty,
+  Risk         = as.character(top$risk_level),
+  Composite    = sprintf("%.3f", top$composite_score),
+  MVG_Score    = sprintf("%.3f", top$mvg_anomaly_score),
+  Network      = sprintf("%.3f", top$network_anomaly_score),
+  Benford      = sprintf("%.3f", top$benford_score),
+  Mahalanobis  = sprintf("%.2f", top$mahal_distance),
+  Probability  = format_probability(top$probability),
+  True_Anomaly = ifelse(top$is_anomaly, "✓ YES", "—")
+)
+
+kable(display_df, align = c("r", "l", "l", "l", rep("r", 6), "c"),
+      caption = "Top 25 Most Suspicious Healthcare Providers — Ranked by Composite Fraud Score")
+```
+
+---
+
+# Detection Performance
+
+```{r confusion-matrix}
+threshold <- 0.5
+predicted_pos <- results$composite_score >= threshold
+actual_pos    <- results$is_anomaly
+
+tp <- sum(predicted_pos & actual_pos)
+fp <- sum(predicted_pos & !actual_pos)
+fn <- sum(!predicted_pos & actual_pos)
+tn <- sum(!predicted_pos & !actual_pos)
+
+accuracy  <- (tp + tn) / nrow(results)
+precision <- tp / max(1, tp + fp)
+recall    <- tp / max(1, tp + fn)
+f1        <- 2 * precision * recall / max(1e-10, precision + recall)
+```
+
+<div style="text-align: center; margin: 2rem 0;">
+<div class="metric-box">
+<div class="metric-value" style="color: #10b981;">`r sprintf("%.1f%%", accuracy * 100)`</div>
+<div class="metric-label">Accuracy</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #8b5cf6;">`r sprintf("%.1f%%", precision * 100)`</div>
+<div class="metric-label">Precision</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #06b6d4;">`r sprintf("%.1f%%", recall * 100)`</div>
+<div class="metric-label">Recall</div>
+</div>
+<div class="metric-box">
+<div class="metric-value" style="color: #f59e0b;">`r sprintf("%.1f%%", f1 * 100)`</div>
+<div class="metric-label">F1 Score</div>
+</div>
+</div>
+
+### Confusion Matrix
+
+```{r confusion-table}
+conf_df <- data.frame(
+  ` ` = c("**Predicted Positive**", "**Predicted Negative**"),
+  `Actual Positive` = c(tp, fn),
+  `Actual Negative` = c(fp, tn),
+  check.names = FALSE
+)
+kable(conf_df, align = c("l", "r", "r"),
+      caption = paste("Confusion Matrix at threshold =", threshold))
+```
+
+> **Interpretation:** The engine correctly identified **`r tp`** of **`r tp + fn`** actual anomalies
+> (recall = `r sprintf("%.1f%%", recall * 100)`). The precision of `r sprintf("%.1f%%", precision * 100)` means
+> that `r sprintf("%.0f%%", precision * 100)` of flagged providers were truly anomalous — a strong result
+> for an unsupervised detection system.
+
+---
+
+# Technical Appendix {.tabset}
+
+## Eigenvalue Spectrum
+
+```{r eigenvalue-spectrum, fig.height=5}
+eig_df <- data.frame(
+  index = seq_along(net$laplacian_eigenvalues),
+  eigenvalue = net$laplacian_eigenvalues
+)
+
+ggplot(eig_df, aes(x = index, y = eigenvalue)) +
+  geom_line(color = "#06b6d4", linewidth = 1) +
+  geom_point(color = "#3b82f6", size = 3) +
+  labs(
+    title = "Laplacian Eigenvalue Spectrum",
+    subtitle = "Gaps indicate natural community boundaries (spectral clustering)",
+    x = "Eigenvalue Index",
+    y = "Eigenvalue"
+  )
+```
+
+## Algorithm Summary
+
+| Method | Implementation | Key Math |
+|--------|---------------|----------|
+| **MVG PDF** | Scratch-built via `%*%`, `solve()`, `det()` | $p(x) = \frac{1}{(2\pi)^{n/2}\|\Sigma\|^{1/2}} \exp(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu))$ |
+| **Covariance Matrix** | Raw matrix multiplication | $\Sigma = \frac{1}{m-1}(X-\mu)^T(X-\mu)$ |
+| **Mahalanobis Distance** | Vectorized `%*%` + `rowSums` | $D_M = \sqrt{(x-\mu)^T\Sigma^{-1}(x-\mu)}$ |
+| **Eigenvector Centrality** | Power iteration | $v_{k+1} = Av_k / \|Av_k\|$ |
+| **Spectral Clustering** | Laplacian eigendecomposition | $L = D - A$, cluster on Fiedler vector |
+| **K-Means** | Scratch iterative assignment | Centroid update via mean of assigned points |
+| **Benford's Law** | Leading-digit extraction | $P(d) = \log_{10}(1 + 1/d)$ |
+| **Chi-Squared Test** | Scratch Pearson's test | $\chi^2 = \sum (O_i - E_i)^2 / E_i$ |
+| **MAD Conformity** | Nigrini's classification | $MAD = \frac{1}{9}\sum\|O_i - E_i\|$ |
+
+## Covariance Matrix
+
+```{r cov-matrix-display}
+cov_df <- as.data.frame(round(mvg$Sigma, 4))
+colnames(cov_df) <- mvg$feature_cols
+rownames(cov_df) <- mvg$feature_cols
+kable(cov_df, caption = "Computed Covariance Matrix Σ (computed from scratch via matrix multiplication)")
+```
+
+---
+
+<div style="text-align: center; color: #64748b; margin-top: 3rem; padding: 2rem; border-top: 1px solid #2a3555;">
+<p style="font-size: 1.1rem; font-weight: 600; color: #94a3b8;">
+Healthcare Provider Anomaly Detection Engine v1.0</p>
+<p>Zero external ML dependencies · Scratch-built linear algebra · Pure R</p>
+<p style="font-size: 0.8rem;">Generated on `r format(Sys.time(), '%B %d, %Y at %H:%M:%S')`</p>
+</div>
